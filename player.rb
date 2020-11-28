@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'decks/player_deck'
+require_relative 'hand'
 
 # Player
 # variables:
@@ -14,24 +14,24 @@ require_relative 'decks/player_deck'
 #   make_bet(Int) - spend some money on bet
 #   take_reward(Int) - take your reward
 class Player
-  attr_reader :name, :money, :deck
+  attr_reader :name, :money, :hand
 
-  def initialize(name, money = 0, deck = PlayerDeck.new)
+  def initialize(name, money = 0, hand = Hand.new)
     @name = name
     @money = money
-    @deck = deck
+    @hand = hand
   end
 
   def draw_card(source_deck)
-    deck.put_card(source_deck.draw_card)
+    hand.put_card(source_deck.draw_card)
   end
 
-  def clear_deck
-    deck.clear
+  def clear_hand
+    hand.clear
   end
 
   def points
-    points = deck.points
+    points = hand.points
     points = 0 if points > 21
     points
   end
@@ -48,5 +48,5 @@ class Player
 
   protected
 
-  attr_writer :money, :deck
+  attr_writer :money, :hand
 end

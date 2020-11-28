@@ -26,7 +26,7 @@ class Card
       ace: 1 }.freeze
 
   # all possible card suits
-  CORRECT_SUITS = %i[spades diamonds clubs hearts].freeze
+  SUITS = %i[spades diamonds clubs hearts].freeze
 
   def initialize(value, suit)
     @value = value

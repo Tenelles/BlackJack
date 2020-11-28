@@ -29,7 +29,7 @@ class Interface
 
     def show_player_cards(player, mode)
       show_text("#{player.name}:")
-      player.deck.cards.each do |card|
+      player.hand.cards.each do |card|
         print("#{CARDS_LETTERS[card.value]}#{SUITS_ICONS[card.suit]} ") if mode == :show
         print('X*') if mode == :hide
       end

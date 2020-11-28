@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-require_relative 'interface' # some class of interface...
+require_relative 'interface'
 require_relative 'player'
+require_relative 'deck'
 
 # Game
 # methods
@@ -13,6 +14,7 @@ class Game
 
   def initialize
     @is_finished = false
+    @deck = Deck.new()
   end
 
   def start
@@ -31,7 +33,8 @@ class Game
     Interface.show_text("Dealer: #{dealer.money}$")
     Interface.highlight
     self.bank = 0
-    self.deck = generate_deck.shuffle
+    deck.generate
+    deck.shuffle
     take_first_cards(player, :show)
     take_first_cards(dealer, :hide)
 
@@ -43,7 +46,7 @@ class Game
 
   def take_first_cards(player, mode)
     self.bank += player.make_bet(DEFAULT_BET)
-    player.clear_deck
+    player.clear_hand
     player.draw_card(deck)
     player.draw_card(deck)
     Interface.show_player_cards(player, mode)
@@ -105,16 +108,6 @@ class Game
 
     Interface.show_text("#{person.name} is bankrupt.")
     self.is_finished = true
-  end
-
-  def generate_deck
-    deck = Deck.new
-    Card::VALUES_POINTS.each_key do |value|
-      Card::CORRECT_SUITS.each do |suit|
-        deck.put_card(Card.new(value, suit))
-      end
-    end
-    deck
   end
 
   attr_accessor :is_finished, :player, :dealer, :bank, :deck

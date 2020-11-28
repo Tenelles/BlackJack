@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../card'
+require_relative 'card'
 
 # Deck
 # variables:
@@ -22,21 +22,20 @@ class Deck
     cards.pop
   end
 
-  def put_card(card)
-    cards << card
-  end
-
   def clear
     self.cards = []
   end
 
   def shuffle
-    Deck.new(cards.shuffle(random: Random.new))
+    cards.shuffle!(random: Random.new)
   end
 
-  def shuffle!
-    cards.shuffle!(random: Random.new)
-    self
+  def generate
+    Card::VALUES_POINTS.each_key do |value|
+      Card::SUITS.each do |suit|
+        cards << Card.new(value, suit)
+      end
+    end
   end
 
   protected
